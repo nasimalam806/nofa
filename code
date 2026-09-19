@@ -1,0 +1,2771 @@
+
+Build a complete modern, premium, mobile-first web application called “StreakForge” — a private habit-awareness, recovery, self-discipline and personal-pattern tracking application focused on helping users understand urges, maintain streaks, recover constructively from setbacks, identify personal patterns, and build consistent habits.
+
+The application must feel like a premium native mobile app rather than a basic CRUD dashboard.
+
+IMPORTANT PRODUCT PRINCIPLE:
+
+“Open the app → immediately understand your progress → immediately know your next useful action.”
+
+The product should create healthy engagement through meaningful progress, personalization, reflection, useful interventions, achievements and visual feedback.
+
+Do NOT use shame, humiliation, fear, manipulation, compulsive checking mechanics, or punitive mechanics to force engagement.
+
+==================================================
+CRITICAL BACKEND REQUIREMENT
+==================================================
+
+DO NOT USE FIREBASE.
+
+Use SUPABASE for the entire backend.
+
+Backend:
+
+- Supabase Authentication
+- Supabase PostgreSQL
+- Supabase Storage where needed
+- Supabase Edge Functions where server-side logic is required
+- Supabase Realtime where useful
+- PostgreSQL functions/RPC where appropriate
+- Supabase Row Level Security (RLS)
+
+==================================================
+TECH STACK
+==================================================
+
+Frontend:
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Lucide React
+- Recharts
+- Framer Motion
+
+Backend:
+
+- Supabase
+- PostgreSQL
+- Supabase Auth
+- Supabase Storage
+- Supabase Edge Functions
+- Supabase Realtime
+
+PWA:
+
+- Installable Progressive Web App
+- App manifest
+- Service worker
+- Offline handling where practical
+- Mobile-friendly viewport
+- App icons
+- PWA shortcuts where supported
+
+Authentication:
+
+- Email/password
+- Google Sign-In
+- Anonymous/guest mode if practical
+
+Use Supabase RLS so private user data can only be accessed by the appropriate authenticated user.
+
+==================================================
+SUPABASE ENVIRONMENT VARIABLES
+==================================================
+
+Use:
+
+VITE_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY
+
+Create:
+
+.env.example
+
+Never hard-code credentials.
+
+Create:
+
+src/lib/supabase.ts
+
+Use:
+
+@supabase/supabase-js
+
+IMPORTANT:
+
+The frontend must only use the Supabase publishable/anonymous client key.
+
+Never expose:
+
+- Supabase secret key
+- service_role key
+- private server credentials
+
+==================================================
+0. FIRST-TIME USER ONBOARDING
+==================================================
+
+Create a beautiful, immersive first-time onboarding experience.
+
+The onboarding should feel premium, emotional, engaging and highly polished.
+
+It should feel closer to a modern wellness/productivity application than a registration form.
+
+Show onboarding ONLY when:
+
+profiles.onboarding_completed = false
+
+or the profile does not exist.
+
+After onboarding is completed:
+
+Never show onboarding again unless the user explicitly chooses:
+
+Settings → Restart Onboarding
+
+Restarting onboarding must NEVER reset streaks, XP, badges, journal entries, urges or any historical data.
+
+==================================================
+ONBOARDING VISUAL STYLE
+==================================================
+
+Use:
+
+- Full-screen mobile-first screens
+- Dark premium background
+- Soft gradients
+- Glassmorphism
+- Large typography
+- Animated icons
+- Framer Motion
+- Smooth transitions
+- Animated progress indicators
+- Premium illustrations
+- Subtle background particles/glows
+- Large touch targets
+- Minimal text per screen
+- Excellent spacing
+
+Respect:
+
+prefers-reduced-motion
+
+Do not overload the user.
+
+==================================================
+ONBOARDING SCREEN 1 — WELCOME
+==================================================
+
+Logo:
+
+🔥 STREAKFORGE
+
+Heading:
+
+“Your journey starts here.”
+
+Subheading:
+
+“Build consistency. Understand your triggers. Take control of your habits.”
+
+Create an animated visual:
+
+DAY 1
+↓
+DAY 7
+↓
+DAY 30
+↓
+DAY 90
+↓
+🏆
+
+Main message:
+
+“StreakForge isn't just a streak counter.”
+
+Secondary text:
+
+“It helps you understand what triggers you, track urges, reflect after difficult moments, and build better patterns over time.”
+
+Button:
+
+“Next →”
+
+Footer:
+
+“Private • Personal • Built around your journey”
+
+==================================================
+ONBOARDING SCREEN 2 — HOW STREAKFORGE HELPS
+==================================================
+
+Heading:
+
+“More than just a streak.”
+
+Subheading:
+
+“Everything you need to understand your journey.”
+
+Animated feature cards:
+
+🔥 SMART STREAKS
+
+“Track your current streak, longest streak, milestones and achievements.”
+
+⚡ URGE TRACKER
+
+“Record urge intensity, duration and triggers — even when you successfully resist.”
+
+🧠 PERSONAL INSIGHTS
+
+“Discover patterns from your own logged experiences.”
+
+🆘 SOS MODE
+
+“Access breathing, grounding, a timer and your personal reasons when an urge hits.”
+
+📖 RELAPSE JOURNAL
+
+“Understand what happened before a reset instead of simply counting it.”
+
+🏆 ACHIEVEMENTS
+
+“Unlock milestones and build visible progress.”
+
+Button:
+
+“Next →”
+
+Progress:
+
+● ● ○
+
+==================================================
+ONBOARDING SCREEN 3 — YOUR JOURNEY IS PERSONAL
+==================================================
+
+Heading:
+
+“Your journey is yours.”
+
+Subheading:
+
+“StreakForge learns from the information you choose to record.”
+
+Cards:
+
+🔒 PRIVATE
+
+“Your journal, urges and personal reflections stay private.”
+
+📊 PERSONAL
+
+“Your insights are based on your own logged experiences.”
+
+💪 NO SHAME
+
+“A reset does not erase your previous progress. It becomes another opportunity to learn.”
+
+Main:
+
+“Ready to build your next streak?”
+
+Button:
+
+“Start My Journey →”
+
+Progress:
+
+● ● ●
+
+==================================================
+PERSONAL SETUP — STEP 1
+==================================================
+
+Heading:
+
+“First, what should we call you?”
+
+Subheading:
+
+“This name will personalize your StreakForge experience.”
+
+Input:
+
+Your name
+
+Placeholder:
+
+“Enter your name”
+
+Validation:
+
+- Required
+- 2–30 characters
+- Trim whitespace
+
+Save:
+
+displayName
+
+Button:
+
+“Continue →”
+
+==================================================
+PERSONAL SETUP — STEP 2
+==================================================
+
+Heading:
+
+“Where are you starting from?”
+
+Question:
+
+“What is your current streak?”
+
+Options:
+
+0 days
+1–2 days
+3–6 days
+7–14 days
+15–29 days
+30–59 days
+60–89 days
+90–179 days
+180–364 days
+365+ days
+
+Also provide:
+
+“Enter exact number”
+
+If exact number is provided:
+
+currentStreak = entered value
+
+If greater than 0:
+
+longestStreak = entered value
+
+initialStreak = entered value
+
+currentStreakStartedAt = approximately that many days before onboarding completion.
+
+Create:
+
+streak history record
+
+status = "imported"
+
+Do not ask the user to recreate old relapse history.
+
+If 0:
+
+currentStreak = 0
+longestStreak = 0
+initialStreak = 0
+
+Do not create a fake historical streak.
+
+==================================================
+PERSONAL SETUP — STEP 3
+==================================================
+
+Heading:
+
+“Understand your starting point.”
+
+Question:
+
+“How long have you been struggling with this habit?”
+
+Options:
+
+- Less than 6 months
+- 6–12 months
+- 1–2 years
+- 2–3 years
+- 3–5 years
+- 5–10 years
+- 10+ years
+- Prefer not to say
+
+IMPORTANT:
+
+Do not use the word “addict” in the UI.
+
+Store:
+
+habitDuration
+
+This is private information.
+
+Never expose it through the leaderboard.
+
+==================================================
+PERSONAL SETUP — STEP 4
+==================================================
+
+Heading:
+
+“Why are you starting this journey?”
+
+Allow multiple selections.
+
+Options:
+
+💪 Build self-control
+🧠 Improve focus
+📚 Focus on studies/work
+📱 Spend less time online
+🔥 Build discipline
+😌 Feel more in control of my habits
+⏰ Improve my daily routine
+🏃 Improve my lifestyle
+❤️ Improve my relationships
+🎯 Reach a personal goal
+🌱 Become more consistent
+✍️ Other
+
+Maximum:
+
+5 reasons
+
+Store:
+
+personalReasons[]
+
+These reasons must later be available inside SOS mode.
+
+==================================================
+PERSONAL SETUP — STEP 5
+==================================================
+
+Heading:
+
+“You're ready.”
+
+Show a beautiful summary card:
+
+WELCOME, [NAME] 👋
+
+Current streak:
+
+🔥 27 DAYS
+
+Your goal:
+
+Build discipline
+
+Your reasons:
+
+• Better self-control
+• Focus
+• Consistency
+
+Habit duration:
+
+2–3 years
+
+Privacy:
+
+🔒 Private
+
+Message:
+
+“Your past doesn't determine what you do next.”
+
+Button:
+
+“Enter StreakForge →”
+
+On completion:
+
+1. Save onboarding information
+2. Set onboarding_completed = true
+3. Create/update profile
+4. Save reasons
+5. Initialize streak
+6. Initialize longest streak
+7. Evaluate badges
+8. Navigate to Home
+9. Show welcome animation
+
+Example:
+
+🔥
+
+WELCOME TO STREAKFORGE
+
+“Day 27 starts now.”
+
+==================================================
+ONBOARDING DATABASE FIELDS
+==================================================
+
+Add to profiles:
+
+onboarding_completed BOOLEAN DEFAULT FALSE
+habit_duration TEXT
+onboarding_completed_at TIMESTAMPTZ
+current_streak_started_at TIMESTAMPTZ
+initial_streak INTEGER DEFAULT 0
+
+Also store personal reasons in:
+
+reasons
+
+==================================================
+MAIN NAVIGATION
+==================================================
+
+Mobile bottom navigation:
+
+1. Home
+2. Streak
+3. Urges
+4. Insights
+5. Profile
+
+Desktop:
+
+- Sidebar navigation
+- Responsive dashboard
+
+Additional screens:
+
+- Visual Journey
+- Streak Calendar
+- SOS
+- Relapse Journal
+- Badge Collection
+- Leaderboard
+- Daily Missions
+- Challenges
+- Weekly Report
+- AI Coach
+- Settings
+- Privacy
+- Data Export
+- Help/About
+
+==================================================
+1. HOME DASHBOARD
+==================================================
+
+The Home screen is the command center.
+
+Top:
+
+“Good evening, [Name]”
+
+Then:
+
+🔥
+27
+DAY STREAK
+
+“Keep building.”
+
+Show animated progress ring:
+
+27 / 30
+
+Next badge:
+
+DISCIPLINED
+
+Show:
+
+“3 days to your next milestone.”
+
+Primary actions:
+
+[ ⚡ SOS ]
+[ + TRACK URGE ]
+[ ↻ LOG RESET ]
+
+Then:
+
+DAILY MOTIVATION
+
+“Your next decision matters more than your last mistake.”
+
+Then:
+
+TODAY'S CHECK-IN
+
+Mood
+Urge
+Energy
+
+Then:
+
+TODAY'S MISSIONS
+
+Then:
+
+Quick Stats
+
+Longest streak
+Total clean days
+Urges resisted
+
+Then:
+
+Recent Activity
+
+==================================================
+2. VISUAL JOURNEY
+==================================================
+
+Create a beautiful visual journey map.
+
+Example:
+
+START
+
+● Day 1
+│
+● Day 3
+│
+🏆 Day 7
+│
+🏆 Day 15
+│
+🔥 YOU ARE HERE
+│
+○ Day 30
+│
+○ Day 45
+│
+○ Day 60
+│
+○ Day 90
+│
+○ Day 180
+│
+○ Day 365
+
+Each milestone should show:
+
+- Badge
+- Requirement
+- Progress
+- Unlock date
+- Quote
+- Achievement
+- Share option
+
+Make the journey vertically scrollable on mobile.
+
+Animate the current position.
+
+==================================================
+3. STREAK CALENDAR
+==================================================
+
+Create a GitHub-style activity calendar.
+
+Display monthly calendar.
+
+States:
+
+🟩 Clean/active day
+🟨 Urge tracked
+🟦 SOS used
+🟥 Reset
+⬜ No data
+
+Allow users to tap a date.
+
+Show that day's:
+
+- Check-in
+- Urges
+- SOS
+- Reset
+- Notes
+- Streak status
+
+Add month navigation.
+
+==================================================
+4. STREAK SYSTEM
+==================================================
+
+Fields:
+
+currentStreak
+longestStreak
+totalCleanDays
+totalRelapses
+lastRelapseAt
+streakStartedAt
+lastCheckInAt
+
+Rules:
+
+- Do not count multiple check-ins on one day as multiple streak days.
+- Preserve historical streaks.
+- Preserve longest streak.
+- Save previous streak when reset occurs.
+- Start a new streak after reset.
+- Use server-side transaction/RPC/Edge Function for important operations.
+- Prevent race conditions.
+- Prevent duplicate submissions.
+
+Create:
+
+Streak History
+
+Example:
+
+Streak #1 — 4 days
+Streak #2 — 12 days
+Streak #3 — 27 days
+Current — 8 days
+
+Each streak is clickable.
+
+==================================================
+5. BADGE SYSTEM
+==================================================
+
+Badges:
+
+Day 1 — Newcomer
+Day 3 — First Steps
+Day 7 — Beginner
+Day 15 — Momentum Builder
+Day 30 — Disciplined
+Day 45 — Focused
+Day 60 — Strong Momentum
+Day 90 — 90-Day Warrior
+Day 120 — Consistency Master
+Day 180 — Half-Year Champion
+Day 365 — Year Builder
+
+Also create achievement categories beyond streak length.
+
+CATEGORY:
+
+STREAK
+
+CATEGORY:
+
+AWARENESS
+
+Examples:
+
+First urge tracked
+10 urges tracked
+First pattern discovered
+
+CATEGORY:
+
+RESILIENCE
+
+Examples:
+
+First SOS session
+5 SOS sessions
+10 resisted urges
+
+CATEGORY:
+
+REFLECTION
+
+Examples:
+
+First journal entry
+5 reflections
+10 reflections
+
+CATEGORY:
+
+CONSISTENCY
+
+Examples:
+
+7 check-ins
+30 check-ins
+100 check-ins
+
+Use beautiful custom icons.
+
+Locked badges:
+
+- Dimmed
+- Blurred
+- Progress indicator
+
+Unlocked badge:
+
+- Full color
+- Animation
+- Unlock date
+
+When unlocked:
+
+Show premium celebration modal.
+
+==================================================
+6. RELAPSE / RESET SYSTEM
+==================================================
+
+Use a non-judgmental:
+
+“Log Reset”
+
+Do not say:
+
+“You failed.”
+
+Instead:
+
+“Your previous streak has ended.”
+
+“Let's understand what happened.”
+
+Reflection flow:
+
+Step 1:
+
+“What happened?”
+
+Options:
+
+Strong urge
+Social media
+Pornographic content
+Stress
+Loneliness
+Boredom
+Night-time
+Being alone
+Triggered by someone/content
+Habit/routine
+Other
+
+Allow multiple selections.
+
+Step 2:
+
+“When did the urge start?”
+
+Step 3:
+
+“How strong was it?”
+
+1–10
+
+Step 4:
+
+“How long did it last?”
+
+<5 min
+5–15 min
+15–30 min
+30–60 min
+1–2 hours
+2+ hours
+
+Step 5:
+
+“What were you feeling?”
+
+Stress
+Boredom
+Loneliness
+Anxiety
+Anger
+Sadness
+Excitement
+Curiosity
+Tiredness
+Other
+
+Step 6:
+
+“What could you do differently next time?”
+
+Step 7:
+
+Private note
+
+After submission:
+
+“Reset recorded.”
+
+“You learned something from this event. Your next streak starts now.”
+
+==================================================
+7. RELAPSE JOURNAL
+==================================================
+
+Dedicated journal.
+
+Display:
+
+Date
+Time
+Previous streak
+Triggers
+Urge intensity
+Urge duration
+Emotion
+Environment
+Reflection
+
+Search.
+
+Filters:
+
+Date
+Trigger
+Intensity
+Streak
+Emotion
+
+Allow edit/delete.
+
+All journal data is private.
+
+==================================================
+8. URGE TRACKER
+==================================================
+
+Button:
+
+⚡ Track Urge
+
+Fields:
+
+Intensity 1–10
+Start time
+Duration
+Trigger
+Emotion
+Outcome
+Notes
+
+Triggers:
+
+Social media
+Content
+Stress
+Loneliness
+Boredom
+Night
+People
+Environment
+Other
+
+Outcome:
+
+Resisted
+Relapsed
+
+If resisted:
+
+“Urge survived.”
+
+Do not imply guaranteed future success.
+
+==================================================
+9. URGE → ACTION → RESULT TIMELINE
+==================================================
+
+Every tracked urge should optionally create a timeline.
+
+Example:
+
+10:42 PM
+⚡ Urge detected
+8/10
+
+↓
+
+SOS started
+
+↓
+
+Breathing
+60 sec
+
+↓
+
+15-minute timer
+
+↓
+
+Urge:
+8 → 4
+
+↓
+
+✅ Resisted
+
+Show:
+
+“Your recorded urge intensity decreased by 50% during this session.”
+
+Only calculate this from actual recorded data.
+
+==================================================
+10. SOS PANIC BUTTON
+==================================================
+
+Create a highly visible floating SOS button.
+
+Title:
+
+“Pause. You don't have to act on this urge.”
+
+Options:
+
+A. 60-second breathing
+
+Animated:
+
+Inhale
+Hold
+Exhale
+
+B. 15-minute urge timer
+
+Display:
+
+“Take 15 minutes before making any decision.”
+
+The timer is NOT a lockout.
+
+Never prevent logging a reset.
+
+C. My Reasons
+
+Show user's personal reasons.
+
+D. Quick Actions
+
+Put phone away
+Go outside
+Drink water
+Walk for 5 minutes
+Call someone
+Open journal
+Track urge
+
+E. Grounding
+
+5 things you see
+4 things you feel
+3 things you hear
+2 things you smell
+1 thing you taste
+
+After SOS:
+
+“Did the urge decrease?”
+
+1–10
+
+Save SOS session.
+
+==================================================
+11. PROACTIVE SOS / SMART PREVENTION
+==================================================
+
+SOS should also work proactively.
+
+If the user's data shows that urges are more frequently logged during a particular time period:
+
+Show an optional preparation prompt.
+
+Example:
+
+🌙 EVENING CHECK-IN
+
+“Your logged entries show more urges around this time.”
+
+“How are you feeling?”
+
+😌
+😐
+😟
+⚡
+
+If user selects a high urge level:
+
+Show:
+
+“Let's prepare.”
+
+Buttons:
+
+Start breathing
+Start 15-minute timer
+View my reasons
+Track urge
+
+Do not claim that the detected time is guaranteed to cause urges.
+
+==================================================
+12. PERSONAL DANGER WINDOW
+==================================================
+
+Create a feature:
+
+“Your Pattern Window”
+
+Use only user-generated data.
+
+Example:
+
+⚠️ YOUR COMMON URGE WINDOW
+
+10:30 PM – 12:15 AM
+
+“More of your recorded urges occurred during this period.”
+
+Actions:
+
+[ Start Evening Check-in ]
+[ Enable Reminder ]
+[ Open SOS ]
+
+Use careful wording:
+
+“Your logged data shows…”
+
+Never present correlation as causation.
+
+==================================================
+13. NIGHT SHIELD
+==================================================
+
+Create an optional:
+
+🌙 Night Shield
+
+User can configure:
+
+Start time
+End time
+
+Example:
+
+10:00 PM – 1:00 AM
+
+During Night Shield:
+
+- Simplify Home UI
+- Emphasize SOS
+- Show personal reasons
+- Show breathing
+- Show journal
+- Show quick actions
+- Reduce distracting visual elements
+
+Allow users to disable it.
+
+==================================================
+14. WHAT CHANGED? ANALYSIS
+==================================================
+
+Create a flagship analytics feature:
+
+“What Changed?”
+
+Compare:
+
+Successful/clean days
+vs
+Reset days
+
+Show:
+
+Average urge
+Common trigger
+Time patterns
+Emotions
+Environment
+Sleep where available
+Social media patterns
+SOS usage
+Streak length
+
+Example:
+
+YOUR LAST 30 DAYS
+
+GOOD DAYS
+
+Average urge:
+5.1/10
+
+RESET DAYS
+
+Average urge:
+8.2/10
+
+Then:
+
+Possible pattern:
+
+“In your logged data, late-night social media appears more frequently on reset days.”
+
+Use:
+
+“Your data suggests…”
+
+“Pattern detected…”
+
+“Based on your logged entries…”
+
+Never say correlation proves causation.
+
+==================================================
+15. PERSONAL INSIGHTS
+==================================================
+
+Insights cards:
+
+🔥 Strongest Pattern
+
+⚡ Common Trigger
+
+🧠 Emotional Pattern
+
+🏆 Strongest Streak
+
+📈 Improvement
+
+🌙 Time Pattern
+
+🆘 SOS Effectiveness
+
+Only calculate from actual user data.
+
+If insufficient data:
+
+“Keep logging your experiences. We'll show patterns once enough data is available.”
+
+Minimum:
+
+5 urge records
+
+or
+
+3 relapse records
+
+==================================================
+16. ANALYTICS
+==================================================
+
+Use Recharts.
+
+Charts:
+
+- Urges by day
+- Trigger distribution
+- Intensity trend
+- Relapses by time
+- Streak history
+- Resisted vs relapsed urges
+- Weekly activity
+- Monthly activity
+- SOS usage
+- Mood trend
+- Energy trend
+- Sleep quality trend
+
+Never expose private data publicly.
+
+==================================================
+17. PERSONAL RECOVERY DASHBOARD
+==================================================
+
+Create a statistics dashboard.
+
+Show:
+
+🔥 Longest streak
+⚡ Urges tracked
+🛡️ Urges resisted
+🆘 SOS sessions
+📖 Reflections
+📅 Check-ins
+🏆 Badges
+
+Create elegant cards.
+
+==================================================
+18. DAILY MISSIONS
+==================================================
+
+Create optional daily missions.
+
+Example:
+
+TODAY'S MISSIONS
+
+☑ Complete check-in +5 XP
+☑ Track mood +3 XP
+☐ Complete breathing +5 XP
+☐ Set today's intention +5 XP
+
+Show:
+
+2 / 4 completed
+
+Do not force users to complete excessive tasks.
+
+Missions refresh daily.
+
+==================================================
+19. DAILY CHECK-IN
+==================================================
+
+Questions:
+
+Mood 1–10
+Urge level 1–10
+Energy 1–10
+Sleep quality 1–10
+Major trigger Yes/No
+Notes
+
+Prevent duplicate check-ins for the same user/date.
+
+==================================================
+20. GAMIFICATION / XP
+==================================================
+
+XP:
+
+Daily check-in = +5
+Urge logged = +3
+SOS completed = +5
+Reflection completed = +10
+7-day milestone = +25
+
+Do not remove huge amounts of XP after relapse.
+
+Do not create punishment mechanics.
+
+Levels:
+
+Level 1
+Level 2
+Level 3
+etc.
+
+Display:
+
+LEVEL 12
+
+1,240 / 1,500 XP
+
+260 XP to Level 13
+
+Animate XP gain:
+
++5 XP
+
+==================================================
+21. CHALLENGES
+==================================================
+
+Create optional challenges.
+
+Examples:
+
+7-Day Consistency
+
+30-Day Focus
+
+7-Day Awareness
+
+30-Day Reflection
+
+Challenges should have:
+
+- Description
+- Requirements
+- Progress
+- Start/end date
+- Completion state
+- Reward
+- Share card
+
+Do not require users to complete unhealthy amounts of tracking.
+
+==================================================
+22. WEEKLY REPORT
+==================================================
+
+Every 7 days create:
+
+“Your Week in Review”
+
+Example:
+
+🔥 Streak: 7 days
+
+⚡ Urges: 12
+🛡️ Resisted: 10
+🆘 SOS: 3
+📖 Reflections: 2
+
+Most common trigger:
+
+Social media
+
+Most active time:
+
+10 PM–12 AM
+
+Then:
+
+“One thing to try next week”
+
+Generate from actual data.
+
+==================================================
+23. AI PERSONAL COACH
+==================================================
+
+Create an optional AI Coach screen.
+
+Purpose:
+
+- Reflection
+- Pattern awareness
+- Coping suggestions
+- Helping users use existing app tools
+- Encouraging constructive next steps
+
+Example:
+
+User:
+
+“Aaj urge bahut strong hai.”
+
+Coach:
+
+“Let's slow things down. Would you like to start a 60-second breathing exercise?”
+
+User:
+
+“Mera streak reset ho gaya.”
+
+Coach:
+
+“Let's understand what happened. What was happening shortly before the urge?”
+
+AI should NOT:
+
+- Diagnose medical conditions
+- Claim medical treatment
+- Make mental health diagnoses
+- Pretend to be a therapist
+- Make unsupported scientific claims
+
+When appropriate, encourage professional help for serious concerns.
+
+The AI Coach should be able to reference the user's own logged StreakForge data only when the user has enabled this feature.
+
+Do not expose data to external AI services without appropriate consent.
+
+==================================================
+24. AI WEEKLY ANALYSIS
+==================================================
+
+Create optional AI-generated:
+
+“Your Week in Review”
+
+Use actual logged data.
+
+Example:
+
+“You logged 8 urges this week. Most occurred in the evening. You used SOS 3 times, and your recorded urge intensity decreased after those sessions.”
+
+Then:
+
+“Next-week experiment”
+
+Example:
+
+“Consider starting your evening check-in before your usual urge window.”
+
+Clearly label AI-generated insights.
+
+==================================================
+25. MY WHY
+==================================================
+
+Create:
+
+“My Why ❤️”
+
+Display selected onboarding reasons.
+
+Example:
+
+I want to:
+
+🎯 Build discipline
+📚 Focus on studies
+🧠 Improve focus
+📱 Reduce scrolling
+
+SOS should have:
+
+“Remember why you started.”
+
+Then display the user's selected reasons.
+
+==================================================
+26. LEADERBOARD
+==================================================
+
+Optional public leaderboard.
+
+Default:
+
+OFF
+
+User must opt in.
+
+Only public fields:
+
+Rank
+Public display name
+Current streak
+Longest streak
+Badge
+
+Never expose:
+
+Email
+Phone
+Habit duration
+Journal
+Triggers
+Relapse notes
+Reasons
+Analytics
+Mood
+Urges
+
+Tabs:
+
+Current Streak
+Longest Streak
+Monthly Progress
+
+Allow opt-out at any time.
+
+Use a separate:
+
+leaderboard_profiles
+
+table.
+
+==================================================
+27. OPTIONAL ANONYMOUS COMMUNITY
+==================================================
+
+Create an optional community screen.
+
+Users can post short anonymous encouragement/progress messages.
+
+Example:
+
+“Day 17. Difficult evening, but I got through it.”
+
+Reactions:
+
+❤️ Support
+🔥 Keep going
+💪 You got this
+
+Do not expose private journal data.
+
+Do not automatically publish relapse details.
+
+Do not create direct messaging initially.
+
+Add basic moderation/report functionality.
+
+==================================================
+28. PROFILE
+==================================================
+
+Profile:
+
+Avatar
+Display name
+Current badge
+Current streak
+Longest streak
+Total clean days
+Total resets
+Badges
+Level
+XP
+
+Sections:
+
+My Why
+My Journey
+Badges
+Challenges
+Weekly Reports
+Settings
+
+==================================================
+29. SETTINGS
+==================================================
+
+Settings:
+
+Notifications
+Leaderboard
+Community
+Theme
+Language
+Night Shield
+AI Coach
+Privacy
+Data Export
+Restart Onboarding
+Delete Account
+
+Restart Onboarding:
+
+Must not reset progress.
+
+==================================================
+30. THEMES
+==================================================
+
+Create premium themes.
+
+Obsidian
+Midnight
+Aurora
+Minimal
+Sunrise
+
+Theme changes should be smooth.
+
+Save preference to:
+
+profiles
+
+==================================================
+31. MICRO-INTERACTIONS
+==================================================
+
+Implement:
+
+- Animated streak number
+- Progress ring animation
+- Badge unlock animation
+- XP floating animation
+- Button press animation
+- Smooth page transitions
+- Card hover
+- Confetti for major milestones
+- Skeleton loaders
+- Pull-to-refresh style interaction where appropriate
+- Haptic-style visual feedback where supported
+
+Do not overuse animations.
+
+==================================================
+32. SHARE CARDS
+==================================================
+
+Create beautiful achievement cards.
+
+Example:
+
+🔥 STREAKFORGE
+
+30 DAYS
+
+DISCIPLINED
+
+“Building consistency, one day at a time.”
+
+Allow:
+
+Download
+Share
+
+Never include:
+
+Private triggers
+Journal content
+Relapse notes
+Habit duration
+Private analytics
+
+==================================================
+33. RESET EXPERIENCE
+==================================================
+
+Never show:
+
+“You failed.”
+
+Instead:
+
+“Your previous streak has ended.”
+
+“Let's understand what happened.”
+
+After reflection:
+
+Previous streak:
+27 days
+
+New streak:
+0 days
+
+Longest streak:
+27 days
+
+Then:
+
+“What you learned”
+
+“Your next streak starts now.”
+
+Create:
+
+TODAY'S RECOVERY
+
+☐ Reflection completed
+☐ Pattern reviewed
+☐ New intention set
+
+Do not make the user feel that the entire journey has been erased.
+
+==================================================
+34. RELAPSE HISTORY
+==================================================
+
+Maintain historical streaks.
+
+Example:
+
+Streak #1 — 4 days
+Streak #2 — 12 days
+Streak #3 — 27 days
+
+Allow tapping each streak.
+
+Show:
+
+Start
+End
+Duration
+Achievements
+Urges
+SOS sessions
+Reflections
+
+Only show the user's own information.
+
+==================================================
+35. NOTIFICATIONS
+==================================================
+
+Optional notifications.
+
+Morning:
+
+“Day 12. Start your day with intention.”
+
+Evening:
+
+“Quick check-in: How was today?”
+
+Milestone:
+
+“🎉 You reached Day 30!”
+
+Badge:
+
+“🏆 New badge unlocked!”
+
+Pattern reminder:
+
+“Your evening check-in is ready.”
+
+Never send shame-based relapse notifications.
+
+Allow notification controls.
+
+Use browser/PWA notifications.
+
+Use Supabase Edge Functions if server-side scheduling is needed.
+
+==================================================
+36. MOTIVATIONAL QUOTE ENGINE
+==================================================
+
+Create local quote database.
+
+Examples:
+
+“Start again. Start stronger.”
+
+“Consistency beats intensity.”
+
+“One difficult moment does not define your journey.”
+
+“Focus on the next decision.”
+
+“Progress is built one day at a time.”
+
+Quotes can depend on:
+
+- Streak
+- Time
+- Milestone
+- SOS
+- Recovery
+- Morning/evening
+
+Do not use copyrighted quotes without appropriate attribution.
+
+==================================================
+37. SUPABASE DATABASE MODEL
+==================================================
+
+Use PostgreSQL.
+
+Create SQL migrations.
+
+Tables:
+
+profiles
+
+id UUID PRIMARY KEY REFERENCES auth.users(id)
+display_name TEXT
+email TEXT
+avatar_url TEXT
+created_at TIMESTAMPTZ
+current_streak INTEGER DEFAULT 0
+longest_streak INTEGER DEFAULT 0
+total_clean_days INTEGER DEFAULT 0
+total_relapses INTEGER DEFAULT 0
+current_streak_started_at TIMESTAMPTZ
+last_relapse_at TIMESTAMPTZ
+last_check_in_at TIMESTAMPTZ
+leaderboard_opt_in BOOLEAN DEFAULT FALSE
+public_display_name TEXT
+current_badge TEXT
+timezone TEXT
+onboarding_completed BOOLEAN DEFAULT FALSE
+habit_duration TEXT
+onboarding_completed_at TIMESTAMPTZ
+initial_streak INTEGER DEFAULT 0
+theme TEXT DEFAULT 'obsidian'
+night_shield_enabled BOOLEAN DEFAULT FALSE
+night_shield_start TIME
+night_shield_end TIME
+ai_coach_enabled BOOLEAN DEFAULT FALSE
+community_opt_in BOOLEAN DEFAULT FALSE
+
+streaks
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+start_date TIMESTAMPTZ
+end_date TIMESTAMPTZ
+duration INTEGER
+status TEXT
+created_at TIMESTAMPTZ
+
+relapses
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+created_at TIMESTAMPTZ
+previous_streak INTEGER
+triggers TEXT[]
+urge_intensity INTEGER
+urge_duration TEXT
+emotions TEXT[]
+environment TEXT
+notes TEXT
+reflection TEXT
+
+urges
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+created_at TIMESTAMPTZ
+intensity INTEGER
+duration TEXT
+trigger TEXT
+emotion TEXT
+outcome TEXT
+notes TEXT
+
+sos_sessions
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+created_at TIMESTAMPTZ
+duration INTEGER
+initial_intensity INTEGER
+final_intensity INTEGER
+actions_used TEXT[]
+outcome TEXT
+
+badges
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+badge_id TEXT
+unlocked_at TIMESTAMPTZ
+streak_required INTEGER
+
+reasons
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+text TEXT
+created_at TIMESTAMPTZ
+active BOOLEAN DEFAULT TRUE
+
+daily_checkins
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+checkin_date DATE
+mood INTEGER
+urge_level INTEGER
+energy INTEGER
+sleep_quality INTEGER
+major_trigger BOOLEAN
+notes TEXT
+created_at TIMESTAMPTZ
+
+xp_events
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+event_type TEXT
+xp INTEGER
+created_at TIMESTAMPTZ
+metadata JSONB
+
+challenges
+
+id UUID PRIMARY KEY
+title TEXT
+description TEXT
+start_date DATE
+end_date DATE
+requirements JSONB
+reward_xp INTEGER
+created_at TIMESTAMPTZ
+
+user_challenges
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+challenge_id UUID REFERENCES challenges(id)
+progress JSONB
+completed BOOLEAN DEFAULT FALSE
+completed_at TIMESTAMPTZ
+created_at TIMESTAMPTZ
+
+daily_missions
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+mission_date DATE
+mission_type TEXT
+completed BOOLEAN DEFAULT FALSE
+xp INTEGER
+completed_at TIMESTAMPTZ
+
+weekly_reports
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+week_start DATE
+week_end DATE
+summary JSONB
+created_at TIMESTAMPTZ
+
+leaderboard_profiles
+
+user_id UUID PRIMARY KEY REFERENCES auth.users(id)
+public_display_name TEXT
+current_streak INTEGER
+longest_streak INTEGER
+current_badge TEXT
+updated_at TIMESTAMPTZ
+
+community_posts
+
+id UUID PRIMARY KEY
+user_id UUID REFERENCES auth.users(id)
+display_name TEXT
+content TEXT
+created_at TIMESTAMPTZ
+reported BOOLEAN DEFAULT FALSE
+
+community_reactions
+
+id UUID PRIMARY KEY
+post_id UUID REFERENCES community_posts(id)
+user_id UUID REFERENCES auth.users(id)
+reaction_type TEXT
+created_at TIMESTAMPTZ
+
+==================================================
+38. SUPABASE RLS
+==================================================
+
+Enable RLS on all private tables.
+
+Users can:
+
+SELECT own data
+INSERT own data
+UPDATE own data
+DELETE own data
+
+Private tables must use:
+
+auth.uid() = user_id
+
+Profiles:
+
+auth.uid() = id
+
+Leaderboard must NEVER expose private profiles.
+
+Use:
+
+leaderboard_profiles
+
+for safe public information.
+
+Community:
+
+Only allow fields intended for public community use.
+
+Users must explicitly opt into community participation.
+
+==================================================
+39. SERVER-SIDE OPERATIONS
+==================================================
+
+Create server-side functions/RPC/Edge Functions:
+
+recordRelapse()
+recordDailyCheckIn()
+calculateCurrentStreak()
+calculateLongestStreak()
+initializeImportedStreak()
+unlockBadges()
+awardXP()
+updateLeaderboard()
+completeMission()
+completeChallenge()
+generateWeeklyReport()
+generatePersonalInsights()
+
+Relapse transaction:
+
+1. Read current streak.
+2. Save relapse.
+3. Close previous streak.
+4. Update longest streak.
+5. Reset current streak.
+6. Start new streak.
+7. Update relapse count.
+8. Evaluate badges.
+9. Award appropriate XP.
+10. Update leaderboard if opted in.
+
+Make atomic.
+
+Prevent race conditions.
+
+==================================================
+40. ANALYTICS FUNCTIONS
+==================================================
+
+Create:
+
+calculateCurrentStreak()
+calculateLongestStreak()
+calculateCleanDays()
+getNextBadge()
+getUnlockedBadges()
+analyzeTriggers()
+analyzeUrgePatterns()
+analyzeRelapsePatterns()
+compareSuccessfulDays()
+generatePersonalInsights()
+calculateDangerWindow()
+calculateSOSEffectiveness()
+generateWeeklySummary()
+
+Only generate insights when enough data exists.
+
+Never present correlations as causation.
+
+==================================================
+41. PRIVACY CENTER
+==================================================
+
+Create:
+
+🔒 Privacy Center
+
+Display:
+
+Private Journal ON
+Leaderboard OFF
+Community OFF
+AI Coach OFF
+Analytics Private
+
+Actions:
+
+Export My Data
+Delete My Account
+
+Explain:
+
+- Journal data is private
+- User controls public visibility
+- Data export is available
+- Account deletion is available
+- Analytics are based on the user's own logged data
+
+==================================================
+42. DATA EXPORT
+==================================================
+
+Allow:
+
+Download My Data
+
+Formats:
+
+JSON
+CSV where practical
+
+Include user's own:
+
+Profile
+Streaks
+Relapses
+Urges
+SOS sessions
+Check-ins
+Badges
+XP
+Challenges
+Missions
+Reports
+
+Never export another user's data.
+
+==================================================
+43. ERROR HANDLING
+==================================================
+
+Implement:
+
+- Loading states
+- Skeleton loaders
+- Empty states
+- Error states
+- Supabase error handling
+- Auth errors
+- Form validation
+- Duplicate prevention
+- Offline handling
+- Retry mechanisms
+
+Never crash because data is missing.
+
+==================================================
+44. DEMO MODE
+==================================================
+
+If Supabase configuration is missing:
+
+Run DEMO MODE using localStorage.
+
+Show:
+
+“Demo Mode”
+
+Allow testing:
+
+- Onboarding
+- Streak
+- Journey
+- Calendar
+- Relapses
+- Urges
+- SOS
+- Badges
+- XP
+- Missions
+- Challenges
+- Analytics
+- Insights
+- Leaderboard
+- Weekly reports
+- Themes
+
+Provide realistic sample data.
+
+Production mode must use Supabase.
+
+==================================================
+45. RESPONSIVENESS
+==================================================
+
+Perfectly support:
+
+320px
+375px
+390px
+430px
+768px
+1024px
+1440px+
+
+Mobile-first.
+
+The mobile experience should feel like a native app.
+
+==================================================
+46. ACCESSIBILITY
+==================================================
+
+Use:
+
+Semantic HTML
+ARIA labels
+Keyboard navigation
+Visible focus
+Readable contrast
+Large touch targets
+Screen-reader labels
+Reduced-motion support
+
+==================================================
+47. UI DESIGN SYSTEM
+==================================================
+
+Design:
+
+Premium
+Modern
+Minimal
+Dark-first
+Glassmorphism
+Soft gradients
+Rounded cards
+Large typography
+Excellent spacing
+
+Do not make it childish.
+
+Avoid excessive neon.
+
+Use gradients carefully.
+
+Create consistent:
+
+- Border radius
+- Shadows
+- Typography scale
+- Icon sizes
+- Spacing
+- Button styles
+- Card styles
+- Input styles
+
+==================================================
+48. CODE ARCHITECTURE
+==================================================
+
+Suggested:
+
+src/
+  components/
+  pages/
+  layouts/
+  hooks/
+  services/
+  supabase/
+  utils/
+  types/
+  data/
+  charts/
+  animations/
+  context/
+  ai/
+  pwa/
+
+Reusable components:
+
+StreakCard
+BadgeCard
+ProgressRing
+SOSButton
+UrgeTracker
+RelapseForm
+JournalCard
+InsightCard
+LeaderboardTable
+MotivationCard
+StatCard
+MilestoneModal
+ConfirmDialog
+EmptyState
+LoadingSkeleton
+JourneyMap
+StreakCalendar
+DangerWindowCard
+MissionCard
+ChallengeCard
+WeeklyReportCard
+AICoach
+ThemeSelector
+PrivacyCenter
+
+Use TypeScript.
+
+Avoid unnecessary any.
+
+==================================================
+49. PWA
+==================================================
+
+Make the app installable.
+
+Create:
+
+manifest
+service worker
+icons
+splash/loading experience
+
+PWA shortcuts where supported:
+
+Open Streak
+Track Urge
+SOS
+Journal
+
+==================================================
+50. SECURITY
+==================================================
+
+Never expose:
+
+Supabase secret key
+service_role
+private credentials
+
+Validate user-owned data server-side.
+
+Use RLS.
+
+Do not trust client-provided:
+
+currentStreak
+longestStreak
+XP
+badge unlocks
+leaderboard rank
+
+Important values should be calculated/validated server-side.
+
+Prevent:
+
+duplicate submissions
+XP abuse
+fake leaderboard values
+unauthorized profile access
+unauthorized journal access
+
+==================================================
+51. PERFORMANCE
+==================================================
+
+Use:
+
+Lazy loading
+Code splitting
+Memoization where useful
+Efficient Supabase queries
+Pagination
+Optimistic UI only where safe
+Skeleton states
+Image optimization
+
+Do not download entire datasets unnecessarily.
+
+Use PostgreSQL queries for aggregation where possible.
+
+==================================================
+52. FINAL PRODUCT EXPERIENCE
+==================================================
+
+The application should feel like:
+
+A premium personal journey dashboard
++
+Habit awareness tracker
++
+Streak system
++
+Urge tracker
++
+SOS intervention toolkit
++
+Personal analytics dashboard
++
+Achievement system
++
+Optional community
++
+AI reflection coach
+
+The user should always understand:
+
+1. Where they are.
+2. What they have accomplished.
+3. What their next milestone is.
+4. What patterns their own data shows.
+5. What useful action they can take right now.
+
+==================================================
+53. IMPORTANT SAFETY / UX PRINCIPLES
+==================================================
+
+Do NOT use:
+
+- Shame
+- Humiliation
+- “You failed”
+- Punitive XP loss
+- Forced lockouts
+- Fear-based notifications
+- Manipulative engagement loops
+
+A reset should be treated as:
+
+“Your previous streak ended. Let's understand what happened and start again.”
+
+Do not claim:
+
+- Medical cures
+- Guaranteed behavioral outcomes
+- Guaranteed benefits of abstinence
+- Diagnoses
+- Scientific certainty from personal correlations
+
+Use wording such as:
+
+“Your data suggests…”
+
+“Pattern detected…”
+
+“Based on your logged entries…”
+
+==================================================
+54. FINAL REQUIREMENT
+==================================================
+
+Do not build only a landing page.
+
+Build a complete functioning application.
+
+Implement:
+
+Authentication
+Onboarding
+Personal setup
+Dashboard
+Streak calculations
+Visual Journey
+Streak Calendar
+Streak History
+Badges
+XP
+Daily Missions
+Challenges
+Relapse logging
+Relapse Journal
+Urge Tracker
+Urge Timeline
+SOS
+Proactive SOS
+Danger Window
+Night Shield
+Daily Check-ins
+What Changed analysis
+Personal Insights
+Analytics
+Weekly Reports
+AI Coach
+AI Weekly Analysis
+My Why
+Leaderboard
+Optional Community
+Profile
+Themes
+Notifications
+Privacy Center
+Data Export
+Account deletion
+Supabase integration
+PostgreSQL schema
+SQL migrations
+RLS policies
+Supabase Edge Functions/RPC
+Demo mode
+PWA
+Responsive UI
+Accessibility
+Error handling
+
+All major buttons must perform real actions.
+
+Do not leave core features as:
+
+“Coming Soon”
+
+unless technically impossible in the current environment.
+
+==================================================
+55. GOOGLE AI STUDIO IMPLEMENTATION INSTRUCTION
+==================================================
+
+Generate the complete working project.
+
+Do not only describe the code.
+
+Create the actual files and components.
+
+When Supabase environment variables are available, connect to the real Supabase project.
+
+When they are not available, automatically use Demo Mode.
+
+At the end provide:
+
+1. Complete file structure
+2. Supabase setup instructions
+3. SQL migration/schema
+4. RLS policies
+5. Edge Functions/RPC setup
+6. Environment variable setup
+7. Authentication setup
+8. PWA setup
+9. How to run locally
+10. How to deploy
+11. Streak algorithm explanation
+12. Analytics algorithm explanation
+13. Leaderboard privacy architecture
+14. AI Coach architecture
+15. Data privacy architecture
+
+Prioritize functionality first.
+
+Then polish the UI.
+
+The final application must feel like a premium production-quality mobile application, not a simple CRUD dashboard.
+
+==================================================
+56. DO NOT REMOVE EXISTING FEATURES
+==================================================
+
+This is critical.
+
+All features specified anywhere in this prompt are REQUIRED.
+
+New features are additions, not replacements.
+
+Do not remove:
+
+- Onboarding
+- Existing streak system
+- Existing badge system
+- Relapse journal
+- Urge tracker
+- SOS
+- Analytics
+- Insights
+- Leaderboard
+- Gamification
+- Notifications
+- Privacy
+- Demo mode
+- Supabase
+- PWA
+- Existing navigation
+- Existing responsive behavior
+
+The final implementation must integrate everything into one coherent UX.
+
+==================================================
+57. DESIGN PRIORITY
+==================================================
+
+Priority order:
+
+1. Functionality
+2. Data security
+3. Privacy
+4. Mobile UX
+5. Visual polish
+6. Animations
+7. Gamification
+8. Advanced AI features
+
+Do not sacrifice security or usability for visual effects.
+
+
+**1. Smart Trigger Detection**
+
+PATTERN DETECTED
+
+62% of your recorded urges happened after 10 PM.
+
+Would you like to enable a 10:00 PM check-in?
+
+[ Enable ]
+[ Not Now ]
+```
+
+**2. Exact 5-Step SOS**
+
+
+STEP 1 — PAUSE
+60-second breathing
+
+STEP 2 — IDENTIFY
+“What are you feeling?”
+
+STEP 3 — DELAY
+15-minute timer
+
+STEP 4 — ACT
+Walk / Water / Leave room / Put phone away
+
+STEP 5 — REFLECT
+“Urge now?”
+8 → 4
+```
+
+**3. Dedicated Today Experience**
+
+
+GOOD MORNING, [NAME] ☀️
+
+DAY 27
+
+TODAY'S FOCUS
+🎯 One day at a time.
+
+TODAY'S MISSIONS
+☐ Morning check-in
+☐ Set today's intention
+☐ Track urges if they appear
+
+TODAY'S QUOTE
+
+“Focus on the next decision.”
+
+[ START MY DAY ]
+```
+
+**4. No Zero Day**
+
+RESET RECORDED
+
+Previous streak
+27 days
+
+Longest streak
+47 days
+
+Today
+A new starting point.
+
+[ START AGAIN ]
+
+TODAY'S RECOVERY
+
+☐ Complete reflection
+☐ Review urge pattern
+☐ Set a new intention
+
+
+==================================================
+FINAL DESIGN GOAL
+==================================================
+
+STREAKFORGE should feel like a premium application that the user opens and immediately sees:
+
+🔥 THEIR CURRENT PROGRESS
+
+🎯 THEIR NEXT MILESTONE
+
+⚡ THEIR CURRENT ACTIONS
+
+🧠 THEIR PERSONAL PATTERNS
+
+🛡️ THEIR TOOLS FOR DIFFICULT MOMENTS
+
+🏆 THEIR ACHIEVEMENTS
+
+📈 THEIR LONG-TERM JOURNEY
+
+The experience should be:
+
+Premium
+Personal
+Private
+Motivating
+Calm
+Modern
+Interactive
+Data-driven
+Non-judgmental
+Fast
+Mobile-first
+
+Build the complete application now.
